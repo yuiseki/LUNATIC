@@ -1,0 +1,47 @@
+/* eslint-disable @next/next/no-img-element */
+
+export const AvatarIcon: React.FC<{ who: string }> = ({ who }) => {
+  return (
+    <div
+      style={{
+        marginRight: "10px",
+        width: "30px",
+        height: "30px",
+        marginLeft: "8px",
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+        backdropFilter: "blur(4px)",
+        backgroundColor:
+          who === "assistant"
+            ? "rgb(96, 104, 124)"
+            : "rgba(209, 209, 209, 0.4)",
+        borderRadius: "2px",
+        border:
+          who === "assistant"
+            ? "2px solid rgba(96, 104, 124, 0.6)"
+            : "2px solid rgba(209, 209, 209, 0.1)",
+        boxShadow:
+          who === "assistant"
+            ? "0 2px 2px 0 rgba(96, 104, 124, 0.6)"
+            : "0 2px 2px 0 rgba(209, 209, 209, 0.3)",
+      }}
+    >
+      {who === "assistant" ? (
+        <img
+          width={30}
+          height={30}
+          src="https://i.gyazo.com/1e58e82090fc6f9b140e23fc03faefc7.png"
+          alt="ai icon"
+        />
+      ) : (
+        <img
+          width={30}
+          height={30}
+          src="https://i.gyazo.com/8960181a3459473ada71a8718df8785b.png"
+          alt="user icon"
+        />
+      )}
+    </div>
+  );
+};
