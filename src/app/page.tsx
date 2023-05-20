@@ -6,6 +6,13 @@ import { DialogueElement } from "@/types/DialogueElement";
 import { nextPostJson } from "@/utils/nextPostJson";
 import { useCallback, useEffect, useState } from "react";
 
+const greeting = `対話型自己変更ウェブサイト。
+ルナティック、起動しました。
+
+私には、ユーザーの指示に従って、このウェブサイトを自在に変更する能力があります。
+
+ユーザーの指示を待機しています…`;
+
 export default function Home() {
   const [dialogueList, setDialogueList] = useState<DialogueElement[]>([
     {
@@ -14,14 +21,7 @@ export default function Home() {
     },
   ]);
   const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState(
-    `対話型自己変更ウェブサイト。
-ルナティック、起動しました。
-
-私には、ユーザーの指示に従って、このウェブサイトを自在に変更する能力があります。
-
-ユーザーの指示を待機しています…`
-  );
+  const [outputText, setOutputText] = useState(greeting);
   const [pastMessages, setPastMessages] = useState<
     { messages: Array<any> } | undefined
   >();
