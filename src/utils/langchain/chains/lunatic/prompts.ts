@@ -90,6 +90,9 @@ main {{
 .textInputButton {{
   animation: keyframe-transform-bigger-smaller 1s linear infinite;
 }}
+.emojiCount {{
+  animation: keyframe-opacity-blinking 5s linear infinite;
+}}
 \`\`\`
 ===
 

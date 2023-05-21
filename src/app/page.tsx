@@ -10,14 +10,14 @@ import { scrollToBottom } from "@/utils/scrollToBottom";
 import { sleep } from "@/utils/sleep";
 import { useCallback, useEffect, useState } from "react";
 
-const greeting = `対話型自己変更ウェブサイト。
+const greeting = `対話型自己書き換えウェブサイト。
 ルナティック、起動しました。
 
 私には、ユーザーの指示に従って、このウェブサイトの見た目を変更する能力があります。
 完全に操作不能に破壊することも可能ですので、ご注意ください。
 
-本サイトを利用した場合は、以下の事項に同意したものとみなされます。
-免責事項：本サイトの開発運用者は、あなたが本サイトを利用することによって生ずる、いかなる損害に対しても、一切責任を負いません。
+本ウェブサイトを利用した場合は、以下の事項に同意したものとみなされます。
+免責事項：本ウェブサイトの開発運用者は、あなたが本ウェブサイトを利用することによって生ずる、いかなる損害に対しても、一切責任を負いません。
 
 ユーザーの指示を待機しています…`;
 
@@ -37,6 +37,9 @@ main {
 }
 .textInputButton {
   animation: keyframe-transform-bigger-smaller 1s linear infinite;
+}
+.emojiCount {
+  animation: keyframe-opacity-blinking 5s linear infinite;
 }
 `;
 
