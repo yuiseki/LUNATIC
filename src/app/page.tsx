@@ -255,7 +255,7 @@ export default function Home() {
         >
           <TextInput
             disabled={responding || lazyInserting}
-            placeholder={"..."}
+            placeholder={"全体の背景を青色にして"}
             inputText={inputText}
             setInputText={setInputText}
             onSubmit={onSubmit}
