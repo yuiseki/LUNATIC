@@ -31,7 +31,6 @@ export const DialogueElementItem: React.FC<{
         <div
           className="dialogueTextWrap"
           style={{
-            fontSize: "1.2em",
             paddingLeft: "5px",
             paddingRight: "5px",
             flexGrow: 1,

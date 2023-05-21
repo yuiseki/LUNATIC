@@ -31,16 +31,21 @@ export async function POST(request: Request) {
   console.log(chatHistory.join("\n"));
   console.log("");
 
-  const model = new OpenAI({ temperature: 0, maxTokens: 2000 });
-  const chain = loadLunaticCssChain({ llm: model });
-  const result = await chain.call({
-    chat_history: chatHistory.join("\n"),
-    current_css: currentCss,
-  });
-
-  console.log(result.text);
-
-  return NextResponse.json({
-    css: result.text,
-  });
+  try {
+    const model = new OpenAI({ temperature: 0, maxTokens: 2000 });
+    const chain = loadLunaticCssChain({ llm: model });
+    const result = await chain.call({
+      chat_history: chatHistory.join("\n"),
+      current_css: currentCss,
+    });
+    console.log(result.text);
+    return NextResponse.json({
+      css: result.text,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({
+      css: undefined,
+    });
+  }
 }

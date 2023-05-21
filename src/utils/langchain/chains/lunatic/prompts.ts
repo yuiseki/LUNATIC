@@ -131,7 +131,7 @@ html > body > main > div.textInputWrap > div.textInput > button.textInputButton
 Examples:
 ===
 Input text:
-Human: 全体的にTwitterっぽくして
+Human: こんにちは。何ができますか？
 Output:
 \`\`\`
 @keyframes keyframe-opacity-blinking {{
@@ -165,28 +165,70 @@ Output:
 }}
 .avatarIcon {{
   border-radius: 50%;
-  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
+  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 1s linear infinite;
 }}
 .avatarIcon img {{
   border-radius: 50%;
 }}
 .dialogueElementItem {{
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
+  background-color: #23232f;
+  border-color: #ff728a;
+}}
+.dialogueElementItemHuman {{
+  font-size: 4em;
+}}
+.textInputWrap {{
+  animation: keyframe-transform-vertically-swinging 1s linear infinite;
+}}
+.textInputButton {{
+  animation: keyframe-transform-bigger-smaller 1s linear infinite;
+  background-color: #ff728a;
+}}
+.emojiWrap {{
+  background-color: rgba(255, 255, 255, 0.05);
+}}
+.emoji {{
+  animation: keyframe-transform-rotate-clockwise 5s linear infinite;
+}}
+.emojiCount {{
+  animation: keyframe-opacity-blinking 2s linear infinite;
+}}
+main {{
+  opacity: 0.9;
+  background-color: #1c1c25;
+}}
+body {{
+  background-color: #1c1c25;
+}}
+\`\`\`
+
+Input text:
+Human: 全体的にTwitterっぽくして
+Output:
+\`\`\`
+.avatarIcon {{
+  border-radius: 50%;
+}}
+.avatarIcon img {{
+  border-radius: 50%;
+}}
+.dialogueElementItem {{
   background-color: #1c2732;
   border-color: #1d9bf0;
 }}
+.dialogueTextRow {{
+  font-size: 1em;
+}}
 .textInputWrap {{
-  animation: keyframe-transform-vertically-swinging 5s linear infinite;
 }}
 .textInputButton {{
-  animation: keyframe-transform-bigger-smaller 5s linear infinite;
   background-color: #1d9bf0;
 }}
 .emojiWrap {{
   background-color: #38444d;
 }}
 .emojiCount {{
-  animation: keyframe-opacity-blinking 5s linear infinite;
 }}
 main {{
   opacity: 0.9;
@@ -201,6 +243,7 @@ body {{
 
 Conversation history:
 {chat_history}
+
 Current CSS:
 \`\`\`
 {current_css}

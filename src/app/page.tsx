@@ -22,54 +22,6 @@ const greeting = `対話型自己書き換えウェブサイト。
 ユーザーの指示を待機しています…`;
 
 const defaultUserCssStyle = `
-@keyframes keyframe-opacity-blinking {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 0; }
-}
-@keyframes keyframe-transform-rotate-clockwise {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(360deg); }
-}
-@keyframes keyframe-transform-horizontally-swaying {
-  0% { transform: translate(-15px, 0); }
-  50% { transform: translate(15px, 0); }
-  100% { transform: translate(-15px, 0); }
-}
-@keyframes keyframe-transform-vertically-swinging {
-  0% { transform: translate(0, 0px); }
-  50% { transform: translate(0, -30px); }
-  100% { transform: translate(0, 0px); }
-}
-@keyframes keyframe-transform-bigger-smaller {
-  0% { transform: scale(0.5); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(0.5); }
-}
-@keyframes keyframe-transform-bigger-smaller-and-rotate-clockwise {
-  0% { transform: scale(0.5) rotate(0); }
-  50% { transform: scale(1.2) rotate(180deg); }
-  100% { transform: scale(0.5) rotate(360deg); }
-}
-main {
-  opacity: 0.9;
-  background-color: transparent;
-}
-.avatarIcon {
-  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
-}
-.dialogueElementItem {
-  animation: keyframe-transform-horizontally-swaying 5s linear infinite;
-}
-.textInputWrap {
-  animation: keyframe-transform-vertically-swinging 5s linear infinite;
-}
-.textInputButton {
-  animation: keyframe-transform-bigger-smaller 5s linear infinite;
-}
-.emojiCount {
-  animation: keyframe-opacity-blinking 5s linear infinite;
-}
 `;
 
 export default function Home() {
