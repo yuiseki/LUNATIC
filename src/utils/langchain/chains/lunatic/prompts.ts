@@ -22,7 +22,7 @@ AI:`,
 });
 
 const cssAnimations = [
-  "keyframe-blinking",
+  "keyframe-opacity-blinking",
   "keyframe-clockwise-rotate",
   "keyframe-horizontally-swaying",
   "keyframe-vertically-swinging",

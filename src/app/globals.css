@@ -86,10 +86,10 @@ textarea:focus {
   margin-left: 4px;
   background: rgba(255, 255, 255, 0.8);
   display: inline-block;
-  animation: keyframe-blinking 0.2s steps(2) infinite;
+  animation: keyframe-opacity-blinking 0.2s steps(2) infinite;
 }
 
-@keyframes keyframe-blinking {
+@keyframes keyframe-opacity-blinking {
   0% {
     opacity: 0;
   }
