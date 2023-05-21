@@ -36,7 +36,7 @@ main {
   animation:2s linear infinite keyframe-vertically-swinging;
 }
 .textInputButton {
-  animation:1s linear infinite byoiin;
+  animation:1s linear infinite keyframe-bigger-smaller;
 }
 `;
 
