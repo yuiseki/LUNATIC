@@ -75,10 +75,10 @@ textarea:focus {
   margin-left: 4px;
   background: rgba(255, 255, 255, 0.8);
   display: inline-block;
-  animation: blink 0.2s steps(2) infinite;
+  animation: chikachika 0.2s steps(2) infinite;
 }
 
-@keyframes blink {
+@keyframes chikachika {
   0% {
     opacity: 0;
   }
@@ -126,5 +126,17 @@ textarea:focus {
   }
   100% {
     bottom: 0.5em;
+  }
+}
+
+@keyframes byoiin {
+  0% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(0.5);
   }
 }

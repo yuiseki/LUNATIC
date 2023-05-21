@@ -53,6 +53,7 @@ export const TextInput = ({
         }}
       />
       <button
+        className="textInputButton"
         onClick={onSubmit}
         disabled={disabled}
         style={{

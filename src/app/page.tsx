@@ -169,6 +169,10 @@ main {
 .textInputWrap {
   animation:2s linear infinite huwahuwa-bottom;
 }
+
+.textInputButton {
+  animation:1s linear infinite byoiin;
+}
     `);
   }, [setUserCssStyle]);
 
