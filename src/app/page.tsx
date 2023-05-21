@@ -141,73 +141,75 @@ export default function Home() {
   }, [inputText, insertNewDialogue, pastMessages]);
 
   return (
-    <main
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        maxWidth: "1000px",
-        margin: "auto",
-        zIndex: "1000",
-      }}
-    >
-      <div className="header">
-        <h1>LUNATIC v0.0.1</h1>
-      </div>
-      <div
+    <>
+      <main
         style={{
-          position: "absolute",
-          top: "1em",
-          width: "98%",
-          margin: "0.5em auto 10em",
-        }}
-      >
-        {dialogueList.map((dialogueElement, dialogueIndex) => {
-          return (
-            <div key={dialogueIndex}>
-              <DialogueElementItem
-                prevDialogueElement={
-                  0 < dialogueIndex
-                    ? dialogueList[dialogueIndex - 1]
-                    : undefined
-                }
-                dialogueElement={dialogueElement}
-                dialogueIndex={dialogueIndex}
-                isResponding={
-                  (responding || lazyInserting) &&
-                  dialogueIndex === dialogueList.length - 1
-                }
-              />
-            </div>
-          );
-        })}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          bottom: "1em",
-          width: "98%",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          maxWidth: "1000px",
           margin: "auto",
+          zIndex: "1000",
         }}
       >
+        <div className="header">
+          <h1>LUNATIC v0.0.1</h1>
+        </div>
         <div
           style={{
-            position: "relative",
-            maxWidth: "1000px",
+            position: "absolute",
+            top: "1em",
+            width: "98%",
+            margin: "0.5em auto 10em",
+          }}
+        >
+          {dialogueList.map((dialogueElement, dialogueIndex) => {
+            return (
+              <div key={dialogueIndex}>
+                <DialogueElementItem
+                  prevDialogueElement={
+                    0 < dialogueIndex
+                      ? dialogueList[dialogueIndex - 1]
+                      : undefined
+                  }
+                  dialogueElement={dialogueElement}
+                  dialogueIndex={dialogueIndex}
+                  isResponding={
+                    (responding || lazyInserting) &&
+                    dialogueIndex === dialogueList.length - 1
+                  }
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "1em",
+            width: "98%",
             margin: "auto",
           }}
         >
-          <TextInput
-            disabled={false}
-            placeholder={"..."}
-            inputText={inputText}
-            setInputText={setInputText}
-            onSubmit={onSubmit}
-          />
+          <div
+            style={{
+              position: "relative",
+              maxWidth: "1000px",
+              margin: "auto",
+            }}
+          >
+            <TextInput
+              disabled={false}
+              placeholder={"..."}
+              inputText={inputText}
+              setInputText={setInputText}
+              onSubmit={onSubmit}
+            />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
