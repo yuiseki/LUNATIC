@@ -22,6 +22,7 @@ export const TextInput = ({
       style={{ position: "relative", maxWidth: "1000px", margin: "auto" }}
     >
       <textarea
+        className="textInputTextarea"
         ref={textareaRef}
         value={inputText}
         placeholder={placeholder}

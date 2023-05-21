@@ -43,11 +43,11 @@ export async function POST(request: Request) {
   const surfaceResult = await surfaceChain.call({ input: query });
 
   console.log("----- ----- -----");
+  console.log("----- surface -----");
   console.log("----- ----- -----");
   console.log("Human:", query);
   console.log("AI:", surfaceResult.response);
   console.log("");
-  console.log(JSON.stringify(memory.chatHistory));
 
   return NextResponse.json({
     query: query,

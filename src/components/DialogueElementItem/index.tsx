@@ -46,6 +46,7 @@ export const DialogueElementItem: React.FC<{
       }}
     >
       <div
+        className="avatarIconWrap"
         style={{
           display: "flex",
           justifyItems: "center",
@@ -54,8 +55,9 @@ export const DialogueElementItem: React.FC<{
       >
         <AvatarIcon who={dialogueElement.who} />
       </div>
-      <div>
+      <div className="dialogueElementWrap">
         <div
+          className="dialogueTextWrap"
           style={{
             fontSize: "1.2em",
             paddingLeft: "5px",
@@ -67,6 +69,7 @@ export const DialogueElementItem: React.FC<{
           {dialogueElement.text?.split("\n").map((row, rowIdx) => {
             return (
               <div
+                className="dialogueTextRow"
                 key={`${dialogueIndex}-${rowIdx}`}
                 style={{
                   minHeight: "1em",
@@ -99,6 +102,7 @@ export const DialogueElementItem: React.FC<{
         </div>
         {!isResponding && (
           <div
+            className="dialogueEmojiListWrap"
             style={{
               cursor: "pointer",
               display: "flex",
@@ -107,8 +111,15 @@ export const DialogueElementItem: React.FC<{
               height: "auto",
             }}
           >
-            <EmojiWrap emoji=":send_money:" count={10000} />
-            <EmojiWrap emoji=":is_all_scam:" count={10000} />
+            {dialogueElement.emojiList.map((emojiValue) => {
+              return (
+                <EmojiWrap
+                  key={emojiValue.name}
+                  emoji={emojiValue.name}
+                  count={emojiValue.count}
+                />
+              );
+            })}
           </div>
         )}
       </div>

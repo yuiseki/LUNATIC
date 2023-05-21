@@ -2,10 +2,13 @@
 
 import { DialogueElementItem } from "@/components/DialogueElementItem";
 import { TextInput } from "@/components/TextInput";
+import { emojiDict } from "@/const/emojiDict";
 import { useLocalStorage } from "@/hooks/localStorage";
 import { DialogueElement } from "@/types/DialogueElement";
 import { nextPostJson } from "@/utils/nextPostJson";
-import { CSSProperties, useCallback, useEffect, useState } from "react";
+import { scrollToBottom } from "@/utils/scrollToBottom";
+import { sleep } from "@/utils/sleep";
+import { useCallback, useEffect, useState } from "react";
 
 const greeting = `対話型自己変更ウェブサイト。
 ルナティック、起動しました。
@@ -13,13 +16,31 @@ const greeting = `対話型自己変更ウェブサイト。
 私には、ユーザーの指示に従って、このウェブサイトの見た目を変更する能力があります。
 完全に操作不能に破壊することも可能ですので、ご注意ください。
 
+本サイトを利用した場合は、以下の事項に同意したものとみなされます。
+免責事項：本サイトの開発運用者は、あなたが本サイトを利用することによって生ずる、いかなる損害に対しても、一切責任を負いません。
+
 ユーザーの指示を待機しています…`;
 
+const defaultUserCssStyle = `
+main {
+  opacity: 0.9;
+  background-color: transparent;
+}
+.avatarIcon {
+  animation:0.5s linear infinite kurukuru;
+}
+.dialogueElementItem {
+  animation:5s linear infinite yurayura;
+}
+.textInputWrap {
+  animation:2s linear infinite huwahuwa-bottom;
+}
+.textInputButton {
+  animation:1s linear infinite byoiin;
+}
+`;
+
 export default function Home() {
-  const [userCssProps, setUserCssProps] = useLocalStorage<CSSProperties>(
-    "lunatic-user-css-props",
-    {}
-  );
   const [userCssStyle, setUserCssStyle] = useLocalStorage<string>(
     "lunatic-user-css-style",
     ""
@@ -27,49 +48,17 @@ export default function Home() {
 
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState(greeting);
-  const [dialogueList, setDialogueList] = useState<DialogueElement[]>([
-    {
-      who: "assistant",
-      text: "",
-    },
-  ]);
+  const [responding, setResponding] = useState(false);
+
+  const [dialogueList, setDialogueList] = useState<DialogueElement[]>([]);
   const [pastMessages, setPastMessages] = useState<
     { messages: Array<any> } | undefined
   >();
 
-  const [initialized, setInitialized] = useState(false);
   const [lazyInserting, setLazyInserting] = useState(false);
-  const [responding, setResponding] = useState(false);
-
   const [lazyInsertingInitialized, setLazyInsertingInitialized] =
     useState(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
-
-  const initializer = useCallback(() => {
-    if (initialized) {
-      return;
-    }
-    setResponding(true);
-    const outputtingTextLength =
-      dialogueList[dialogueList.length - 1].text.length;
-    if (outputtingTextLength < outputText.length) {
-      const newDialogueList = [
-        {
-          who: "assistant",
-          text: outputText.slice(0, outputtingTextLength + 1),
-        },
-      ];
-      setDialogueList(newDialogueList);
-    } else {
-      setOutputText("");
-      setResponding(false);
-      setInitialized(true);
-    }
-  }, [dialogueList, initialized, outputText]);
-
-  useEffect(() => {
-    setTimeout(initializer, 50);
-  }, [initializer]);
 
   useEffect(() => {
     if (lazyInserting) {
@@ -78,6 +67,7 @@ export default function Home() {
           setDialogueList((prev) => {
             const last = prev[prev.length - 1];
             last.text = outputText.slice(0, last.text.length + 1);
+            scrollToBottom();
             if (outputText.length === last.text.length) {
               setLazyInserting(false);
               setLazyInsertingInitialized(false);
@@ -126,13 +116,28 @@ export default function Home() {
     const newInputText = inputText.trim();
     setInputText("");
     console.log(newInputText);
-    insertNewDialogue({ who: "user", text: newInputText });
-
+    insertNewDialogue({
+      who: "user",
+      text: newInputText,
+      emojiList: Object.keys(emojiDict)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4)
+        .map((emojiName) => {
+          return {
+            name: emojiName,
+            count: Math.floor(Math.random() * (1000 - 0 + 1) + 0),
+          };
+        }),
+    });
+    await sleep(200);
+    scrollToBottom();
     setResponding(true);
 
     const surfaceRes = await nextPostJson("/api/lunatic/surface", {
       query: newInputText,
-      pastMessages: pastMessages ? JSON.stringify(pastMessages) : undefined,
+      pastMessagesJsonString: pastMessages
+        ? JSON.stringify(pastMessages)
+        : undefined,
     });
 
     const surfaceResJson: {
@@ -144,76 +149,97 @@ export default function Home() {
       {
         who: "assistant",
         text: surfaceResJson.surface,
+        emojiList: Object.keys(emojiDict)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 4)
+          .map((emojiName) => {
+            return {
+              name: emojiName,
+              count: Math.floor(Math.random() * (1000 - 0 + 1) + 0),
+            };
+          }),
       },
       true
     );
+    setResponding(true);
+    const cssRes = await nextPostJson("/api/lunatic/css", {
+      currentCss: userCssStyle,
+      pastMessagesJsonString: JSON.stringify(surfaceResJson.history),
+    });
+    const cssResJson = await cssRes.json();
+    setResponding(false);
+    if (cssResJson.css) {
+      const newUserCssStyle = cssResJson.css.split("```")[1];
+      console.log(newUserCssStyle);
+      setUserCssStyle(newUserCssStyle);
+    }
 
     setResponding(false);
-  }, [inputText, insertNewDialogue, pastMessages]);
+  }, [
+    inputText,
+    insertNewDialogue,
+    pastMessages,
+    setUserCssStyle,
+    userCssStyle,
+  ]);
 
-  useEffect(() => {
-    setUserCssStyle(`
-main {
-  opacity: 0.9;
-  background-color: transparent;
-}
-
-.avatarIcon {
-  animation:0.5s linear infinite kurukuru;
-}
-
-.dialogueElementItem {
-  animation:5s linear infinite yurayura;
-}
-
-.textInputWrap {
-  animation:2s linear infinite huwahuwa-bottom;
-}
-
-.textInputButton {
-  animation:1s linear infinite byoiin;
-}
-    `);
+  const onClickEmergency = useCallback(() => {
+    setUserCssStyle(defaultUserCssStyle);
   }, [setUserCssStyle]);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (!mounted) {
+      setMounted(true);
+      const emojiNames = Object.keys(emojiDict)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4);
+      insertNewDialogue(
+        {
+          who: "assistant",
+          text: greeting,
+          emojiList: emojiNames.map((emojiName) => {
+            return {
+              name: emojiName,
+              count: Math.floor(Math.random() * (1000 - 0 + 1) + 0),
+            };
+          }),
+        },
+        true
+      );
+      if (!userCssStyle || userCssStyle.length === 0) {
+        setUserCssStyle(defaultUserCssStyle);
+      }
+    }
+  }, [mounted, userCssStyle, setUserCssStyle, insertNewDialogue]);
   if (!mounted) return null;
 
   return (
     <>
       <main suppressHydrationWarning>
-        <div className="header">
-          <h1>LUNATIC v0.0.1</h1>
-        </div>
         <div
           className="dialogueListWrap"
           style={{
-            position: "absolute",
-            top: "1em",
             width: "98%",
-            margin: "0.5em auto 10em",
+            margin: "0.5em auto 5em",
           }}
         >
           {dialogueList.map((dialogueElement, dialogueIndex) => {
             return (
-              <div key={dialogueIndex}>
-                <DialogueElementItem
-                  prevDialogueElement={
-                    0 < dialogueIndex
-                      ? dialogueList[dialogueIndex - 1]
-                      : undefined
-                  }
-                  dialogueElement={dialogueElement}
-                  dialogueIndex={dialogueIndex}
-                  isResponding={
-                    (responding || lazyInserting) &&
-                    dialogueIndex === dialogueList.length - 1
-                  }
-                />
-              </div>
+              <DialogueElementItem
+                key={dialogueIndex}
+                prevDialogueElement={
+                  0 < dialogueIndex
+                    ? dialogueList[dialogueIndex - 1]
+                    : undefined
+                }
+                dialogueElement={dialogueElement}
+                dialogueIndex={dialogueIndex}
+                isResponding={
+                  (responding || lazyInserting) &&
+                  dialogueIndex === dialogueList.length - 1
+                }
+              />
             );
           })}
         </div>
@@ -236,6 +262,9 @@ main {
           />
         </div>
       </main>
+      <div className="emergencyButtonWrap">
+        <button onClick={onClickEmergency}>緊急脱出</button>
+      </div>
       <style suppressHydrationWarning>{userCssStyle}</style>
     </>
   );
