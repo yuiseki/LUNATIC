@@ -38,20 +38,6 @@ export const TextInput = ({
         }}
         rows={inputText ? inputText.split("\n").length : 1}
         maxLength={400}
-        style={{
-          overflowY: "hidden",
-          resize: "none",
-          minHeight: "50px",
-          maxHeight: "200px",
-          whiteSpace: "pre-wrap",
-          height: "auto",
-          width: "100%",
-          color: "rgb(236, 236, 241)",
-          backgroundColor: "rgba(64, 65, 79, 0.9)",
-          borderRadius: "2px",
-          padding: "8px 46px 8px 12px",
-          fontWeight: 400,
-        }}
       />
       <button
         className="textInputButton"
@@ -59,8 +45,8 @@ export const TextInput = ({
         disabled={disabled}
         style={{
           position: "absolute",
-          bottom: 18,
-          right: 15,
+          bottom: 10,
+          right: 10,
           display: "block",
           padding: "4px",
           height: "34px",

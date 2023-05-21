@@ -14,8 +14,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.75;
 }
 
 html,
@@ -71,7 +69,7 @@ button:disabled {
 }
 
 textarea {
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   outline: none;
 }
 textarea:focus {
@@ -106,6 +104,7 @@ textarea:focus {
 .dialogueElementItem {
   display: flex;
   flex-direction: row;
+  line-height: 1.5;
   gap: 8px;
   width: 100%;
   padding: 8px 10px;
@@ -155,6 +154,23 @@ textarea:focus {
   margin-right: 10px;
   border-radius: 6px;
   z-index: 1000;
+}
+
+.textInputTextarea {
+  font-size: 1.25em;
+  font-weight: 400;
+  color: rgb(236, 236, 241);
+  background-color: rgba(64, 65, 79, 0.9);
+  border-radius: 2px;
+  height: auto;
+  line-height: 1rem;
+  min-height: 40px;
+  max-height: 200px;
+  width: 100%;
+  padding: 14px 46px 14px 12px;
+  white-space: pre-wrap;
+  resize: none;
+  overflow-y: hidden;
 }
 
 .textInputButton {
