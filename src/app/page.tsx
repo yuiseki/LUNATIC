@@ -161,7 +161,6 @@ export default function Home() {
 
     setRequesting(true);
     const cssRes = await nextPostJson("/api/lunatic/css", {
-      currentCss: userCssStyle,
       pastMessagesJsonString: JSON.stringify(surfaceResJson.history),
     });
     const cssResJson = await cssRes.json();
@@ -172,13 +171,7 @@ export default function Home() {
     }
     setResponding(false);
     setRequesting(false);
-  }, [
-    inputText,
-    insertNewDialogue,
-    pastMessages,
-    setUserCssStyle,
-    userCssStyle,
-  ]);
+  }, [inputText, insertNewDialogue, pastMessages, setUserCssStyle]);
 
   const onClickEmergency = useCallback(() => {
     console.log(defaultUserCssStyle);
@@ -218,8 +211,8 @@ export default function Home() {
         <div
           className="dialogueListWrap"
           style={{
-            width: "98%",
-            margin: "0.5em auto 10em",
+            width: "100%",
+            margin: "0 auto",
           }}
         >
           {dialogueList.map((dialogueElement, dialogueIndex) => {
@@ -242,7 +235,7 @@ export default function Home() {
             position: "absolute",
             bottom: "1em",
             left: 0,
-            width: "98%",
+            width: "100%",
             margin: "auto",
           }}
         >

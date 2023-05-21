@@ -75,6 +75,8 @@ export const DialogueElementItem: React.FC<{
           <div
             className="dialogueEmojiListWrap"
             style={{
+              position: "relative",
+              top: 0,
               display: "flex",
               padding: "6px 0",
               height: "auto",

@@ -4,7 +4,6 @@ import { loadLunaticCssChain } from "@/utils/langchain/chains/lunatic";
 
 export async function POST(request: Request) {
   const res = await request.json();
-  const currentCss = res.currentCss;
   const pastMessagesJsonString = res.pastMessagesJsonString;
 
   let chatHistory: string[] = [];
@@ -36,7 +35,6 @@ export async function POST(request: Request) {
     const chain = loadLunaticCssChain({ llm: model });
     const result = await chain.call({
       chat_history: chatHistory.join("\n"),
-      current_css: currentCss,
     });
     console.log(result.text);
     return NextResponse.json({

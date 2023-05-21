@@ -47,9 +47,11 @@ main {
 
 .emergencyButtonWrap {
   opacity: 0.4;
-  position: fixed;
+  position: fixed !important;
   bottom: 0;
   right: 0;
+  min-height: 20px;
+  min-width: 20px;
   z-index: 9999;
 }
 .emergencyButtonWrap:hover {
@@ -114,13 +116,13 @@ textarea:focus {
 }
 
 .dialogueElementItemAssistant {
-  color: rgba(236, 236, 241, 0.8);
-  background-color: rgba(68, 70, 84, 0.9);
+  color: rgba(236, 236, 241, 1);
+  background-color: rgba(68, 70, 84, 1);
 }
 
 .dialogueElementItemHuman {
   color: rgba(236, 236, 241, 1);
-  background-color: rgba(52, 53, 65, 0.9);
+  background-color: rgba(52, 53, 65, 1);
 }
 
 .avatarIcon {
@@ -144,4 +146,21 @@ textarea:focus {
   border: 2px solid rgba(96, 104, 124, 0.6);
   box-shadow: 0 2px 2px 0 rgba(209, 209, 209, 0.3);
   background-color: rgba(209, 209, 209, 0.4);
+}
+
+.emojiWrap {
+  background: rgba(55, 55, 55, 0.5);
+  backdrop-filter: blur(2px);
+  height: 33px;
+  margin-right: 10px;
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+.textInputButton {
+  color: rgb(253, 254, 255);
+  background-color: rgba(96, 104, 124, 1);
+  box-shadow: 0 2px 6px 0 rgba(96, 104, 124, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
 }
