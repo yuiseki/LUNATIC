@@ -164,12 +164,16 @@ Output:
   100% {{ transform: scale(0.5) rotate(360deg); }}
 }}
 .avatarIcon {{
-  border-radius: 30px;
+  border-radius: 50%;
   animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
+}}
+.avatarIcon img {{
+  border-radius: 50%;
 }}
 .dialogueElementItem {{
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
-  border-color: #38444d;
+  background-color: #1c2732;
+  border-color: #1d9bf0;
 }}
 .textInputWrap {{
   animation: keyframe-transform-vertically-swinging 5s linear infinite;
