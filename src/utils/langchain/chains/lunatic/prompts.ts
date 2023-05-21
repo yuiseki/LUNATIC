@@ -40,33 +40,9 @@ const cssClassNames = [
   "textInputTextarea",
   "textInputButton",
 ];
-export const LUNATIC_CSS_PROMPT = new PromptTemplate({
-  template: `You are an expert of CSS. You update the CSS as accurately as possible according to the conversation history with Human. Note that, assistant is equal AI, Human is equal user, dialogue is equal chat or conversation.
-
-You will always reply according to the following rules:
-- You always output valid CSS.
-- You output properly updated CSS based on current CSS.
-- You never make CSS changes that Human does not mention.
-- The CSS MUST be enclosed by three backticks on new lines, denoting that it is a code block.
-
-Pre defined css class name is: [${cssClassNames.join(", ")}]
-
-Note that, HTML has following DOM structures:
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.avatarIconWrap > div.avatarIcon > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.avatarIconWrap > div.avatarIcon > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
-html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
-html > body > main > div.textInputWrap > div.textInput > textarea.textInputTextarea
-html > body > main > div.textInputWrap > div.textInput > button.textInputButton
-
-Examples:
-===
+const exampleChatGpt = `
 Input text:
-全体の背景をピンクにしてほしい
+Human: 全体的にChatGPTっぽくして
 Output:
 \`\`\`
 @keyframes keyframe-opacity-blinking {{
@@ -98,28 +74,123 @@ Output:
   50% {{ transform: scale(1.2) rotate(180deg); }}
   100% {{ transform: scale(0.5) rotate(360deg); }}
 }}
-main {{
-  opacity: 0.9;
-  background-color: transparent;
-}}
 .avatarIcon {{
-  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 2s linear infinite;
+  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
+  border-radius: 30px;
 }}
 .dialogueElementItem {{
-  background-color: transparent;
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
+  border-color: #555659;
 }}
 .textInputWrap {{
-  animation: keyframe-transform-vertically-swinging 2s linear infinite;
+  animation: keyframe-transform-vertically-swinging 5s linear infinite;
 }}
 .textInputButton {{
-  animation: keyframe-transform-bigger-smaller 1s linear infinite;
+  animation: keyframe-transform-bigger-smaller 5s linear infinite;
+  background-color: #ececf1;
+}}
+.emojiWrap {{
+  background-color: #38444d;
 }}
 .emojiCount {{
   animation: keyframe-opacity-blinking 5s linear infinite;
 }}
+main {{
+  opacity: 0.9;
+  background-color: #343541;
+  border-color: #555659;
+}}
 body {{
-  background-color: pink;
+  background-color: #2a2b32;
+}}
+`;
+export const LUNATIC_CSS_PROMPT = new PromptTemplate({
+  template: `You are an expert of CSS. You update the CSS as accurately as possible according to the conversation history with Human. Note that, assistant is equal AI, Human is equal user, dialogue is equal chat or conversation.
+
+You will always reply according to the following rules:
+- You always output valid CSS.
+- You output properly updated CSS based on current CSS.
+- You never make CSS changes that Human does not mention.
+- The CSS MUST be enclosed by three backticks on new lines, denoting that it is a code block.
+- If the conversation history does not contain any intent, you output the most complex CSS that randomly specify CSS class name and animation keyframe as an example.
+
+Pre defined css class name is: [${cssClassNames.join(", ")}]
+
+Note that, HTML has following DOM structures:
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.avatarIconWrap > div.avatarIcon > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.avatarIconWrap > div.avatarIcon > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
+html > body > main > div.textInputWrap > div.textInput > textarea.textInputTextarea
+html > body > main > div.textInputWrap > div.textInput > button.textInputButton
+
+Examples:
+===
+Input text:
+Human: 全体的にTwitterっぽくして
+Output:
+\`\`\`
+@keyframes keyframe-opacity-blinking {{
+  0% {{ opacity: 0; }}
+  50% {{ opacity: 1; }}
+  100% {{ opacity: 0; }}
+}}
+@keyframes keyframe-transform-rotate-clockwise {{
+  0% {{ transform: rotate(0); }}
+  100% {{ transform: rotate(360deg); }}
+}}
+@keyframes keyframe-transform-horizontally-swaying {{
+  0% {{ transform: translate(-15px, 0); }}
+  50% {{ transform: translate(15px, 0); }}
+  100% {{ transform: translate(-15px, 0); }}
+}}
+@keyframes keyframe-transform-vertically-swinging {{
+  0% {{ transform: translate(0, 0px); }}
+  50% {{ transform: translate(0, -30px); }}
+  100% {{ transform: translate(0, 0px); }}
+}}
+@keyframes keyframe-transform-bigger-smaller {{
+  0% {{ transform: scale(0.5); }}
+  50% {{ transform: scale(1.2); }}
+  100% {{ transform: scale(0.5); }}
+}}
+@keyframes keyframe-transform-bigger-smaller-and-rotate-clockwise {{
+  0% {{ transform: scale(0.5) rotate(0); }}
+  50% {{ transform: scale(1.2) rotate(180deg); }}
+  100% {{ transform: scale(0.5) rotate(360deg); }}
+}}
+.avatarIcon {{
+  border-radius: 30px;
+  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
+}}
+.dialogueElementItem {{
+  animation: keyframe-transform-horizontally-swaying 5s linear infinite;
+  border-color: #38444d;
+}}
+.textInputWrap {{
+  animation: keyframe-transform-vertically-swinging 5s linear infinite;
+}}
+.textInputButton {{
+  animation: keyframe-transform-bigger-smaller 5s linear infinite;
+  background-color: #1d9bf0;
+}}
+.emojiWrap {{
+  background-color: #38444d;
+}}
+.emojiCount {{
+  animation: keyframe-opacity-blinking 5s linear infinite;
+}}
+main {{
+  opacity: 0.9;
+  background-color: #15202b;
+  border-color: #38444d;
+}}
+body {{
+  background-color: #15202b;
 }}
 \`\`\`
 ===

@@ -10,6 +10,8 @@ export const EmojiWrap: React.FC<{
     <div
       className="emojiWrap"
       style={{
+        cursor: "pointer",
+        fontFamily: "sans-serif, emoji",
         display: "flex",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         backdropFilter: "blur(2px)",

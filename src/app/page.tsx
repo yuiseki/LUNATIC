@@ -56,17 +56,16 @@ main {
   background-color: transparent;
 }
 .avatarIcon {
-  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 2s linear infinite;
+  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 10s linear infinite;
 }
 .dialogueElementItem {
-  background-color: transparent;
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
 }
 .textInputWrap {
-  animation: keyframe-transform-vertically-swinging 2s linear infinite;
+  animation: keyframe-transform-vertically-swinging 5s linear infinite;
 }
 .textInputButton {
-  animation: keyframe-transform-bigger-smaller 1s linear infinite;
+  animation: keyframe-transform-bigger-smaller 5s linear infinite;
 }
 .emojiCount {
   animation: keyframe-opacity-blinking 5s linear infinite;

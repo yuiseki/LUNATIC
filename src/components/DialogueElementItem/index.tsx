@@ -16,28 +16,6 @@ export const DialogueElementItem: React.FC<{
           : "dialogueElementItemHuman"
       }`}
       key={dialogueIndex}
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        gap: "8px",
-        width: "100%",
-        padding: "8px 10px",
-        marginTop: "15px",
-        marginBottom: "15px",
-        border: "2px solid rgba(55, 55, 55, 0.5)",
-        borderRadius: "2px",
-        boxShadow: " 0 2px 6px 0 rgba(55, 55, 55, 0.3)",
-        color: `${
-          dialogueElement.who === "assistant"
-            ? "rgba(236, 236, 241, 0.8)"
-            : "rgba(236, 236, 241, 1)"
-        }`,
-        backgroundColor: `${
-          dialogueElement.who === "assistant"
-            ? "rgba(68, 70, 84, 0.9)"
-            : "rgba(52, 53, 65, 0.9)"
-        }`,
-      }}
     >
       <div
         className="avatarIconWrap"
@@ -98,10 +76,8 @@ export const DialogueElementItem: React.FC<{
           <div
             className="dialogueEmojiListWrap"
             style={{
-              cursor: "pointer",
               display: "flex",
-              fontFamily: "sans-serif, emoji",
-              padding: "6px",
+              padding: "6px 0",
               height: "auto",
             }}
           >
