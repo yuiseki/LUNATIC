@@ -31,9 +31,18 @@ const cssAnimations = [
 const cssClassNames = [
   "dialogueListWrap",
   "dialogueElementItem",
+  "avatarIconWrap",
   "avatarIcon",
+  "dialogueElementWrap",
+  "dialogueTextWrap",
+  "dialogueTextRow",
+  "dialogueEmojiListWrap",
+  "emojiWrap",
+  "emoji",
+  "emojiCount",
   "textInputWrap",
   "textInput",
+  "textInputTextarea",
   "textInputButton",
 ];
 export const LUNATIC_CSS_PROMPT = new PromptTemplate({
