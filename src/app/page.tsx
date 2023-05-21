@@ -10,7 +10,8 @@ import { CSSProperties, useCallback, useEffect, useState } from "react";
 const greeting = `対話型自己変更ウェブサイト。
 ルナティック、起動しました。
 
-私には、ユーザーの指示に従って、このウェブサイトを自在に変更する能力があります。
+私には、ユーザーの指示に従って、このウェブサイトの見た目を変更する能力があります。
+完全に操作不能に破壊することも可能ですので、ご注意ください。
 
 ユーザーの指示を待機しています…`;
 
@@ -67,7 +68,7 @@ export default function Home() {
   }, [dialogueList, initialized, outputText]);
 
   useEffect(() => {
-    setTimeout(initializer, 25);
+    setTimeout(initializer, 50);
   }, [initializer]);
 
   useEffect(() => {
@@ -152,15 +153,21 @@ export default function Home() {
 
   useEffect(() => {
     setUserCssStyle(`
-body {
-  background-color: pink;
+main {
+  opacity: 0.9;
+  background-color: transparent;
 }
-@keyframes rotate {
-  0%{ transform: rotate(0); }
-  100%{ transform: rotate(360deg); }
-}
+
 .avatarIcon {
-  animation:0.5s linear infinite rotate;
+  animation:0.5s linear infinite kurukuru;
+}
+
+.dialogueElementItem {
+  animation:5s linear infinite yurayura;
+}
+
+.textInputWrap {
+  animation:2s linear infinite huwahuwa-bottom;
 }
     `);
   }, [setUserCssStyle]);
@@ -211,6 +218,7 @@ body {
           style={{
             position: "absolute",
             bottom: "1em",
+            left: 0,
             width: "98%",
             margin: "auto",
           }}

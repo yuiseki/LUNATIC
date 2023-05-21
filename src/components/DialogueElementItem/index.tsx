@@ -1,5 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { DialogueElement } from "@/types/DialogueElement";
 import { AvatarIcon } from "../AvatarIcon";
+import { EmojiWrap } from "../EmojiWrap";
 
 export const DialogueElementItem: React.FC<{
   prevDialogueElement?: DialogueElement;
@@ -95,6 +97,20 @@ export const DialogueElementItem: React.FC<{
               );
             })}
         </div>
+        {!isResponding && (
+          <div
+            style={{
+              cursor: "pointer",
+              display: "flex",
+              fontFamily: "sans-serif, emoji",
+              padding: "6px",
+              height: "auto",
+            }}
+          >
+            <EmojiWrap emoji=":send_money:" count={10000} />
+            <EmojiWrap emoji=":is_all_scam:" count={10000} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -17,7 +17,10 @@ export const TextInput = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
-    <div style={{ position: "relative", maxWidth: "1000px", margin: "auto" }}>
+    <div
+      className="textInput"
+      style={{ position: "relative", maxWidth: "1000px", margin: "auto" }}
+    >
       <textarea
         ref={textareaRef}
         value={inputText}

@@ -67,19 +67,64 @@ textarea:focus {
   outline: none;
 }
 
-@keyframes cursor-blink {
-  0% {
-    opacity: 0;
-  }
-}
-
 .blinkingCursor::after {
   content: "";
   width: 10px;
   height: 1.17em;
   margin-top: 4px;
   margin-left: 4px;
-  background: rgba(0, 158, 219, 1);
+  background: rgba(255, 255, 255, 0.8);
   display: inline-block;
-  animation: cursor-blink 0.2s steps(2) infinite;
+  animation: blink 0.2s steps(2) infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+}
+
+@keyframes kurukuru {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes yurayura {
+  0% {
+    transform: translate(-30px, 0);
+  }
+  50% {
+    transform: translate(30px, 0);
+  }
+  100% {
+    transform: translate(-30px, 0);
+  }
+}
+
+@keyframes huwahuwa {
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, 60px);
+  }
+  100% {
+    transform: translate(0, 0px);
+  }
+}
+
+@keyframes huwahuwa-bottom {
+  0% {
+    bottom: 0.5em;
+  }
+  50% {
+    bottom: 2.5em;
+  }
+  100% {
+    bottom: 0.5em;
+  }
 }
