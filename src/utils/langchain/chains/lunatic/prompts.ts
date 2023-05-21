@@ -21,28 +21,9 @@ AI:`,
   inputVariables: ["history", "input"],
 });
 
-const cssClassNames = [
-  "dialogueListWrap",
-  "dialogueElementItem",
-  "dialogueElementItemAssistant",
-  "dialogueElementItemHuman",
-  "avatarIconWrap",
-  "avatarIcon",
-  "dialogueElementWrap",
-  "dialogueTextWrap",
-  "dialogueTextRow",
-  "dialogueEmojiListWrap",
-  "emojiWrap",
-  "emoji",
-  "emojiCount",
-  "textInputWrap",
-  "textInput",
-  "textInputTextarea",
-  "textInputButton",
-];
 const exampleHello = `
 Input text:
-Human: こんにちは。何ができますか？
+Human: 絵文字のカウントを点滅させてください
 Output:
 \`\`\`
 @keyframes keyframe-opacity-blinking {{
@@ -50,67 +31,99 @@ Output:
   50% {{ opacity: 1; }}
   100% {{ opacity: 0; }}
 }}
+.emojiCount {{
+  animation: keyframe-opacity-blinking 2s linear infinite;
+}}
+\`\`\`
+
+Input text:
+Human: アバターアイコンを回転させてください
+Output:
+\`\`\`
 @keyframes keyframe-transform-rotate-clockwise {{
   0% {{ transform: rotate(0); }}
   100% {{ transform: rotate(360deg); }}
 }}
+.avatarIcon {{
+  border-radius: 50%;
+  animation: keyframe-transform-rotate-clockwise 1s linear infinite;
+}}
+\`\`\`
+
+Input text:
+Human: チャット欄を左右に水平にユラユラと揺らしてください
+Output:
+\`\`\`
 @keyframes keyframe-transform-horizontally-swaying {{
   0% {{ transform: translate(-15px, 0); }}
   50% {{ transform: translate(15px, 0); }}
   100% {{ transform: translate(-15px, 0); }}
-}}
-@keyframes keyframe-transform-vertically-swinging {{
-  0% {{ transform: translate(0, 0px); }}
-  50% {{ transform: translate(0, -30px); }}
-  100% {{ transform: translate(0, 0px); }}
-}}
-@keyframes keyframe-transform-bigger-smaller-bounce {{
-  0% {{ transform: scale(0.5); }}
-  50% {{ transform: scale(1.2); }}
-  100% {{ transform: scale(0.5); }}
-}}
-@keyframes keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise {{
-  0% {{ transform: scale(0.5) rotate(0); }}
-  50% {{ transform: scale(1.2) rotate(180deg); }}
-  100% {{ transform: scale(0.5) rotate(360deg); }}
-}}
-.avatarIcon {{
-  border-radius: 50%;
-  animation: keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise 1s linear infinite;
-}}
-.avatarIcon img {{
-  border-radius: 50%;
 }}
 .dialogueElementItem {{
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
   background-color: #23232f;
   border-color: #ff728a;
 }}
-.dialogueElementItemHuman {{
-  font-size: 4em;
+\`\`\`
+
+Input text:
+Human: 入力欄を縦方向に上下にユラユラと揺らしてください
+Output:
+\`\`\`
+@keyframes keyframe-transform-vertically-swinging {{
+  0% {{ transform: translate(0, 0px); }}
+  50% {{ transform: translate(0, -30px); }}
+  100% {{ transform: translate(0, 0px); }}
 }}
 .textInputWrap {{
   animation: keyframe-transform-vertically-swinging 1s linear infinite;
 }}
-.textInputButton {{
+\`\`\`
+
+Input text:
+Human: 入力ボタンを大きくしたり小さくしたりさせてください
+Output:
+\`\`\`
+@keyframes keyframe-transform-bigger-smaller-bounce {{
+  0% {{ transform: scale(0.5); }}
+  50% {{ transform: scale(1.2); }}
+  100% {{ transform: scale(0.5); }}
+}}
+.textInputWrap {{
   animation: keyframe-transform-bigger-smaller-bounce 1s linear infinite;
-  background-color: #ff728a;
 }}
-.emojiWrap {{
-  background-color: rgba(255, 255, 255, 0.05);
+\`\`\`
+
+Input text:
+Human: アバターアイコンを回転させながら大きくしたり小さくしたりしてください
+Output:
+\`\`\`
+@keyframes keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise {{
+  0% {{ transform: scale(0.5) rotate(0); }}
+  50% {{ transform: scale(1.2) rotate(180deg); }}
+  100% {{ transform: scale(0.5) rotate(360deg); }}
 }}
+.avatarIcon img {{
+  animation:  keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise 1s linear infinite;
+}}
+\`\`\`
+
+Text input:
+Human: 私の文字を大きくしてください
+Output:
+\`\`\`
+.dialogueElementItemHuman {{
+  font-size: 4em;
+}}
+\`\`\`
+
+
+Text input:
+Human: 絵文字を改善させてください
+Output:
+\`\`\`
 .emoji {{
   animation: keyframe-transform-rotate-clockwise 5s linear infinite;
-}}
-.emojiCount {{
-  animation: keyframe-opacity-blinking 2s linear infinite;
-}}
-main {{
-  opacity: 0.9;
-  background-color: #1c1c25;
-}}
-body {{
-  background-color: #1c1c25;
 }}
 \`\`\`
 `;
@@ -239,6 +252,25 @@ html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElem
 html > body > main > div.textInputWrap > div.textInput > textarea.textInputTextarea
 html > body > main > div.textInputWrap > div.textInput > button.textInputButton
 `;
+const cssClassNames = [
+  "dialogueListWrap",
+  "dialogueElementItem",
+  "dialogueElementItemAssistant",
+  "dialogueElementItemHuman",
+  "avatarIconWrap",
+  "avatarIcon",
+  "dialogueElementWrap",
+  "dialogueTextWrap",
+  "dialogueTextRow",
+  "dialogueEmojiListWrap",
+  "emojiWrap",
+  "emoji",
+  "emojiCount",
+  "textInputWrap",
+  "textInput",
+  "textInputTextarea",
+  "textInputButton",
+];
 export const LUNATIC_CSS_PROMPT = new PromptTemplate({
   template: `You are an expert of CSS. You generate the CSS as accurately as possible according to the conversation history with Human. Note that, assistant is same as AI, Human is same as User, Chat is same as Dialogue or Conversation.
 
