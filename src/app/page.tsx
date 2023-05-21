@@ -22,14 +22,44 @@ const greeting = `対話型自己書き換えウェブサイト。
 ユーザーの指示を待機しています…`;
 
 const defaultUserCssStyle = `
+@keyframes keyframe-opacity-blinking {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes keyframe-transform-rotate-clockwise {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes keyframe-transform-horizontally-swaying {
+  0% { transform: translate(-15px, 0); }
+  50% { transform: translate(15px, 0); }
+  100% { transform: translate(-15px, 0); }
+}
+@keyframes keyframe-transform-vertically-swinging {
+  0% { transform: translate(0, 0px); }
+  50% { transform: translate(0, -30px); }
+  100% { transform: translate(0, 0px); }
+}
+@keyframes keyframe-transform-bigger-smaller {
+  0% { transform: scale(0.5); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(0.5); }
+}
+@keyframes keyframe-transform-bigger-smaller-and-rotate-clockwise {
+  0% { transform: scale(0.5) rotate(0); }
+  50% { transform: scale(1.2) rotate(180deg); }
+  100% { transform: scale(0.5) rotate(360deg); }
+}
 main {
   opacity: 0.9;
   background-color: transparent;
 }
 .avatarIcon {
-  animation: keyframe-transform-rotate-clockwise 1s linear infinite;
+  animation: keyframe-transform-bigger-smaller-and-rotate-clockwise 2s linear infinite;
 }
 .dialogueElementItem {
+  background-color: transparent;
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
 }
 .textInputWrap {
@@ -51,6 +81,7 @@ export default function Home() {
 
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState(greeting);
+  const [requesting, setRequesting] = useState(false);
   const [responding, setResponding] = useState(false);
 
   const [dialogueList, setDialogueList] = useState<DialogueElement[]>([]);
@@ -75,6 +106,9 @@ export default function Home() {
               setLazyInserting(false);
               setLazyInsertingInitialized(false);
               setOutputText("");
+              if (!requesting) {
+                setResponding(false);
+              }
             }
             return [...prev.slice(0, prev.length - 1), last];
           });
@@ -92,7 +126,13 @@ export default function Home() {
         setIntervalId(undefined);
       }
     };
-  }, [intervalId, lazyInserting, lazyInsertingInitialized, outputText]);
+  }, [
+    intervalId,
+    lazyInserting,
+    lazyInsertingInitialized,
+    outputText,
+    requesting,
+  ]);
 
   const insertNewDialogue = useCallback(
     (newDialogueElement: DialogueElement, lazy?: boolean) => {
@@ -101,6 +141,7 @@ export default function Home() {
           return [...prev, newDialogueElement];
         });
       } else {
+        setLazyInserting(true);
         const lazyNewDialogueElement = {
           ...newDialogueElement,
           text: "",
@@ -109,13 +150,14 @@ export default function Home() {
           return [...prev, lazyNewDialogueElement];
         });
         setOutputText(newDialogueElement.text);
-        setLazyInserting(true);
       }
     },
     []
   );
 
   const onSubmit = useCallback(async () => {
+    setResponding(true);
+
     const newInputText = inputText.trim();
     setInputText("");
     console.log(newInputText);
@@ -134,8 +176,8 @@ export default function Home() {
     });
     await sleep(200);
     scrollToBottom();
-    setResponding(true);
 
+    setRequesting(true);
     const surfaceRes = await nextPostJson("/api/lunatic/surface", {
       query: newInputText,
       pastMessagesJsonString: pastMessages
@@ -165,19 +207,20 @@ export default function Home() {
       true
     );
     setResponding(true);
+
+    setRequesting(true);
     const cssRes = await nextPostJson("/api/lunatic/css", {
       currentCss: userCssStyle,
       pastMessagesJsonString: JSON.stringify(surfaceResJson.history),
     });
     const cssResJson = await cssRes.json();
-    setResponding(false);
     if (cssResJson.css) {
       const newUserCssStyle = cssResJson.css.split("```")[1];
       console.log(newUserCssStyle);
       setUserCssStyle(newUserCssStyle);
     }
-
     setResponding(false);
+    setRequesting(false);
   }, [
     inputText,
     insertNewDialogue,
@@ -232,11 +275,6 @@ export default function Home() {
             return (
               <DialogueElementItem
                 key={dialogueIndex}
-                prevDialogueElement={
-                  0 < dialogueIndex
-                    ? dialogueList[dialogueIndex - 1]
-                    : undefined
-                }
                 dialogueElement={dialogueElement}
                 dialogueIndex={dialogueIndex}
                 isResponding={

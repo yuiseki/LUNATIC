@@ -4,20 +4,10 @@ import { AvatarIcon } from "../AvatarIcon";
 import { EmojiWrap } from "../EmojiWrap";
 
 export const DialogueElementItem: React.FC<{
-  prevDialogueElement?: DialogueElement;
   dialogueElement: DialogueElement;
   dialogueIndex: number;
   isResponding: boolean;
-  setInputText?: (text: string) => void;
-  mode?: string;
-}> = ({
-  prevDialogueElement,
-  dialogueElement,
-  dialogueIndex,
-  isResponding,
-  setInputText,
-  mode,
-}) => {
+}> = ({ dialogueElement, dialogueIndex, isResponding }) => {
   return (
     <div
       className="dialogueElementItem"
