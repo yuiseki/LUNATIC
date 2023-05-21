@@ -27,16 +27,16 @@ main {
   background-color: transparent;
 }
 .avatarIcon {
-  animation:0.5s linear infinite keyframe-clockwise-rotate;
+  animation: keyframe-clockwise-rotate 0.5s linear infinite;
 }
 .dialogueElementItem {
-  animation:5s linear infinite keyframe-horizontally-swaying;
+  animation: keyframe-horizontally-swaying 5s linear infinite;
 }
 .textInputWrap {
-  animation:2s linear infinite keyframe-vertically-swinging;
+  animation: keyframe-vertically-swinging 2s linear infinite;
 }
 .textInputButton {
-  animation:1s linear infinite keyframe-bigger-smaller;
+  animation: keyframe-bigger-smaller 1s linear infinite;
 }
 `;
 
@@ -184,6 +184,7 @@ export default function Home() {
   ]);
 
   const onClickEmergency = useCallback(() => {
+    console.log(defaultUserCssStyle);
     setUserCssStyle(defaultUserCssStyle);
   }, [setUserCssStyle]);
 
@@ -221,7 +222,7 @@ export default function Home() {
           className="dialogueListWrap"
           style={{
             width: "98%",
-            margin: "0.5em auto 5em",
+            margin: "0.5em auto 10em",
           }}
         >
           {dialogueList.map((dialogueElement, dialogueIndex) => {

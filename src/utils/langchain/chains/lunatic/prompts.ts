@@ -79,16 +79,16 @@ main {{
   background-color: transparent;
 }}
 .avatarIcon {{
-  animation:0.5s linear infinite keyframe-clockwise-rotate;
+  animation: keyframe-clockwise-rotate 0.5s linear infinite;
 }}
 .dialogueElementItem {{
-  animation:5s linear infinite keyframe-horizontally-swaying;
+  animation: keyframe-horizontally-swaying 5s linear infinite;
 }}
 .textInputWrap {{
-  animation:2s linear infinite keyframe-vertically-swinging;
+  animation: keyframe-vertically-swinging 2s linear infinite;
 }}
 .textInputButton {{
-  animation:1s linear infinite keyframe-bigger-smaller;
+  animation: keyframe-bigger-smaller 1s linear infinite;
 }}
 \`\`\`
 ===
