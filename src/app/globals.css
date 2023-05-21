@@ -95,7 +95,7 @@ textarea:focus {
   }
 }
 
-@keyframes keyframe-clockwise-rotate {
+@keyframes keyframe-transform-rotate-clockwise {
   0% {
     transform: rotate(0);
   }
@@ -104,7 +104,7 @@ textarea:focus {
   }
 }
 
-@keyframes keyframe-horizontally-swaying {
+@keyframes keyframe-transform-horizontally-swaying {
   0% {
     transform: translate(-30px, 0);
   }
@@ -116,7 +116,7 @@ textarea:focus {
   }
 }
 
-@keyframes keyframe-vertically-swinging {
+@keyframes keyframe-transform-vertically-swinging {
   0% {
     transform: translate(0, 0px);
   }
@@ -128,7 +128,7 @@ textarea:focus {
   }
 }
 
-@keyframes keyframe-bigger-smaller {
+@keyframes keyframe-transform-bigger-smaller {
   0% {
     transform: scale(0.5);
   }

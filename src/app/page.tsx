@@ -27,16 +27,16 @@ main {
   background-color: transparent;
 }
 .avatarIcon {
-  animation: keyframe-clockwise-rotate 0.5s linear infinite;
+  animation: keyframe-transform-rotate-clockwise 0.5s linear infinite;
 }
 .dialogueElementItem {
-  animation: keyframe-horizontally-swaying 5s linear infinite;
+  animation: keyframe-transform-horizontally-swaying 5s linear infinite;
 }
 .textInputWrap {
-  animation: keyframe-vertically-swinging 2s linear infinite;
+  animation: keyframe-transform-vertically-swinging 2s linear infinite;
 }
 .textInputButton {
-  animation: keyframe-bigger-smaller 1s linear infinite;
+  animation: keyframe-transform-bigger-smaller 1s linear infinite;
 }
 `;
 
