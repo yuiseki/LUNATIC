@@ -27,7 +27,7 @@ main {
   background-color: transparent;
 }
 .avatarIcon {
-  animation: keyframe-transform-rotate-clockwise 0.5s linear infinite;
+  animation: keyframe-transform-rotate-clockwise 1s linear infinite;
 }
 .dialogueElementItem {
   animation: keyframe-transform-horizontally-swaying 5s linear infinite;
