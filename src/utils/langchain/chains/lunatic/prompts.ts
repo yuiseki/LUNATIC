@@ -22,12 +22,11 @@ AI:`,
 });
 
 const cssAnimations = [
-  "chikachika",
-  "kurukuru",
-  "yurayura",
-  "huwahuwa",
-  "huwahuwa-bottom",
-  "byoiin",
+  "keyframe-blinking",
+  "keyframe-clockwise-rotate",
+  "keyframe-horizontally-swaying",
+  "keyframe-vertically-swinging",
+  "keyframe-bigger-smaller",
 ];
 const cssClassNames = [
   "dialogueListWrap",

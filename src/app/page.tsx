@@ -27,13 +27,13 @@ main {
   background-color: transparent;
 }
 .avatarIcon {
-  animation:0.5s linear infinite kurukuru;
+  animation:0.5s linear infinite keyframe-clockwise-rotate;
 }
 .dialogueElementItem {
-  animation:5s linear infinite yurayura;
+  animation:5s linear infinite keyframe-horizontally-swaying;
 }
 .textInputWrap {
-  animation:2s linear infinite huwahuwa-bottom;
+  animation:2s linear infinite keyframe-vertically-swinging;
 }
 .textInputButton {
   animation:1s linear infinite byoiin;

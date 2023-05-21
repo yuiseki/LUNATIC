@@ -86,16 +86,16 @@ textarea:focus {
   margin-left: 4px;
   background: rgba(255, 255, 255, 0.8);
   display: inline-block;
-  animation: chikachika 0.2s steps(2) infinite;
+  animation: keyframe-blinking 0.2s steps(2) infinite;
 }
 
-@keyframes chikachika {
+@keyframes keyframe-blinking {
   0% {
     opacity: 0;
   }
 }
 
-@keyframes kurukuru {
+@keyframes keyframe-clockwise-rotate {
   0% {
     transform: rotate(0);
   }
@@ -104,7 +104,7 @@ textarea:focus {
   }
 }
 
-@keyframes yurayura {
+@keyframes keyframe-horizontally-swaying {
   0% {
     transform: translate(-30px, 0);
   }
@@ -116,31 +116,19 @@ textarea:focus {
   }
 }
 
-@keyframes huwahuwa {
+@keyframes keyframe-vertically-swinging {
   0% {
     transform: translate(0, 0px);
   }
   50% {
-    transform: translate(0, 60px);
+    transform: translate(0, -60px);
   }
   100% {
     transform: translate(0, 0px);
   }
 }
 
-@keyframes huwahuwa-bottom {
-  0% {
-    bottom: 0.5em;
-  }
-  50% {
-    bottom: 2.5em;
-  }
-  100% {
-    bottom: 0.5em;
-  }
-}
-
-@keyframes byoiin {
+@keyframes keyframe-bigger-smaller {
   0% {
     transform: scale(0.5);
   }
