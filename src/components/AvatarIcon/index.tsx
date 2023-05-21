@@ -3,6 +3,7 @@
 export const AvatarIcon: React.FC<{ who: string }> = ({ who }) => {
   return (
     <div
+      className="avatarIcon"
       style={{
         marginRight: "10px",
         width: "30px",

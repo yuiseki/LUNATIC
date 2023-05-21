@@ -17,7 +17,7 @@ export const TextInput = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", maxWidth: "1000px", margin: "auto" }}>
       <textarea
         ref={textareaRef}
         value={inputText}
@@ -59,7 +59,7 @@ export const TextInput = ({
           color: "rgb(253, 254, 255)",
           backgroundColor: "rgba(96, 104, 124, 1)",
           boxShadow: "0 2px 6px 0 rgba(96, 104, 124, 0.6)",
-          border: "2px solid rgba(96, 104, 124, 0.6)",
+          border: "2px solid rgba(255, 255, 255, 0.7)",
           borderRadius: "2px",
           display: "block",
           padding: "4px",

@@ -1,3 +1,15 @@
+@font-face {
+  font-family: emoji;
+  /*
+    https://xem.github.io/unicode13/emoji.html
+  */
+  src: url(/Twemoji.ttf);
+  /*
+    https://github.com/mozilla/twemoji-colr/issues/56
+  */
+  unicode-range: U+00A9-E007F;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -23,6 +35,42 @@ body {
 main {
   min-height: 100vh;
   min-height: 100dvh;
+  max-width: 1000px;
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+input[type="button"],
+button {
+  cursor: pointer;
+}
+
+input[type="button"]:disabled,
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+textarea {
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  outline: none;
+}
+textarea:focus {
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 1px 1px 1px 0 rgba(255, 255, 255, 0.7);
+  outline: none;
+}
+
+@keyframes cursor-blink {
+  0% {
+    opacity: 0;
+  }
 }
 
 .blinkingCursor::after {

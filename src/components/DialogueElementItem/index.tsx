@@ -18,6 +18,7 @@ export const DialogueElementItem: React.FC<{
 }) => {
   return (
     <div
+      className="dialogueElementItem"
       key={dialogueIndex}
       style={{
         display: "flex",
@@ -79,52 +80,6 @@ export const DialogueElementItem: React.FC<{
               </div>
             );
           })}
-
-          {!isResponding &&
-            dialogueElement.docs &&
-            0 < dialogueElement.docs.length &&
-            !dialogueElement.text.includes("I don't know.") &&
-            !dialogueElement.text.includes("Sorry, something went wrong.") && (
-              <details>
-                <summary>
-                  Related documents {`(${dialogueElement.docs.length})`}
-                </summary>
-                <ul style={{ paddingLeft: "2em" }}>
-                  {dialogueElement.docs?.map((doc, docIdx) => {
-                    return (
-                      <li
-                        key={`${dialogueIndex}-${docIdx}`}
-                        style={{
-                          minHeight: "1em",
-                        }}
-                      >
-                        <a
-                          href={doc.metadata.source}
-                          title={
-                            doc.metadata.title
-                              ? doc.metadata.title
-                              : doc.metadata.name
-                          }
-                          target="_blank"
-                        >
-                          {doc.metadata.id}
-                        </a>
-                        {" - "}
-                        <span>
-                          {doc.metadata.created_at
-                            ? new Date(
-                                doc.metadata.created_at * 1000
-                              ).toLocaleDateString()
-                            : new Date(
-                                doc.metadata.date_created
-                              ).toLocaleDateString()}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </details>
-            )}
           {!isResponding &&
             dialogueElement.textEnd?.split("\n").map((row, rowIdx) => {
               return (

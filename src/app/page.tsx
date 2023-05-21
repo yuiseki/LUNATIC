@@ -2,9 +2,10 @@
 
 import { DialogueElementItem } from "@/components/DialogueElementItem";
 import { TextInput } from "@/components/TextInput";
+import { useLocalStorage } from "@/hooks/localStorage";
 import { DialogueElement } from "@/types/DialogueElement";
 import { nextPostJson } from "@/utils/nextPostJson";
-import { useCallback, useEffect, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useState } from "react";
 
 const greeting = `対話型自己変更ウェブサイト。
 ルナティック、起動しました。
@@ -14,14 +15,23 @@ const greeting = `対話型自己変更ウェブサイト。
 ユーザーの指示を待機しています…`;
 
 export default function Home() {
+  const [userCssProps, setUserCssProps] = useLocalStorage<CSSProperties>(
+    "lunatic-user-css-props",
+    {}
+  );
+  const [userCssStyle, setUserCssStyle] = useLocalStorage<string>(
+    "lunatic-user-css-style",
+    ""
+  );
+
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState(greeting);
   const [dialogueList, setDialogueList] = useState<DialogueElement[]>([
     {
       who: "assistant",
       text: "",
     },
   ]);
-  const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState(greeting);
   const [pastMessages, setPastMessages] = useState<
     { messages: Array<any> } | undefined
   >();
@@ -140,24 +150,35 @@ export default function Home() {
     setResponding(false);
   }, [inputText, insertNewDialogue, pastMessages]);
 
+  useEffect(() => {
+    setUserCssStyle(`
+body {
+  background-color: pink;
+}
+@keyframes rotate {
+  0%{ transform: rotate(0); }
+  100%{ transform: rotate(360deg); }
+}
+.avatarIcon {
+  animation:0.5s linear infinite rotate;
+}
+    `);
+  }, [setUserCssStyle]);
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
+
   return (
     <>
-      <main
-        style={{
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
-          maxWidth: "1000px",
-          margin: "auto",
-          zIndex: "1000",
-        }}
-      >
+      <main suppressHydrationWarning>
         <div className="header">
           <h1>LUNATIC v0.0.1</h1>
         </div>
         <div
+          className="dialogueListWrap"
           style={{
             position: "absolute",
             top: "1em",
@@ -186,6 +207,7 @@ export default function Home() {
           })}
         </div>
         <div
+          className="textInputWrap"
           style={{
             position: "absolute",
             bottom: "1em",
@@ -193,23 +215,16 @@ export default function Home() {
             margin: "auto",
           }}
         >
-          <div
-            style={{
-              position: "relative",
-              maxWidth: "1000px",
-              margin: "auto",
-            }}
-          >
-            <TextInput
-              disabled={false}
-              placeholder={"..."}
-              inputText={inputText}
-              setInputText={setInputText}
-              onSubmit={onSubmit}
-            />
-          </div>
+          <TextInput
+            disabled={responding || lazyInserting}
+            placeholder={"..."}
+            inputText={inputText}
+            setInputText={setInputText}
+            onSubmit={onSubmit}
+          />
         </div>
       </main>
+      <style suppressHydrationWarning>{userCssStyle}</style>
     </>
   );
 }
