@@ -10,7 +10,11 @@ export const DialogueElementItem: React.FC<{
 }> = ({ dialogueElement, dialogueIndex, isResponding }) => {
   return (
     <div
-      className="dialogueElementItem"
+      className={`dialogueElementItem ${
+        dialogueElement.who === "assistant"
+          ? "dialogueElementItemAssistant"
+          : "dialogueElementItemHuman"
+      }`}
       key={dialogueIndex}
       style={{
         display: "flex",

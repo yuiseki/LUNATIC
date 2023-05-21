@@ -21,16 +21,11 @@ AI:`,
   inputVariables: ["history", "input"],
 });
 
-const cssAnimations = [
-  "keyframe-opacity-blinking",
-  "keyframe-transform-rotate-clockwise",
-  "keyframe-transform-horizontally-swaying",
-  "keyframe-transform-vertically-swinging",
-  "keyframe-transform-bigger-smaller",
-];
 const cssClassNames = [
   "dialogueListWrap",
   "dialogueElementItem",
+  "dialogueElementItemAssistant",
+  "dialogueElementItemHuman",
   "avatarIconWrap",
   "avatarIcon",
   "dialogueElementWrap",
@@ -46,7 +41,7 @@ const cssClassNames = [
   "textInputButton",
 ];
 export const LUNATIC_CSS_PROMPT = new PromptTemplate({
-  template: `You are an expert of CSS. You update the CSS as accurately as possible according to the conversation history with Human.
+  template: `You are an expert of CSS. You update the CSS as accurately as possible according to the conversation history with Human. Note that, assistant is equal AI, Human is equal user, dialogue is equal chat or conversation.
 
 You will always reply according to the following rules:
 - You always output valid CSS.
@@ -54,14 +49,17 @@ You will always reply according to the following rules:
 - You never make CSS changes that Human does not mention.
 - The CSS MUST be enclosed by three backticks on new lines, denoting that it is a code block.
 
-Pre defined css animation name is: [${cssAnimations.join(", ")}]
 Pre defined css class name is: [${cssClassNames.join(", ")}]
 
-HTML has following DOM structure:
-html > body > main > div.dialogueListWrap > div.dialogueElementItem > div.avatarIconWrap > div.avatarIcon > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
-html > body > main > div.dialogueListWrap > div.dialogueElementItem > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
-html > body > main > div.dialogueListWrap > div.dialogueElementItem > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
+Note that, HTML has following DOM structures:
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.avatarIconWrap > div.avatarIcon > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.avatarIconWrap > div.avatarIcon > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueTextWrap > div.dialogueTextRow
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emoji > img
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemAssistant > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
+html > body > main > div.dialogueListWrap > div.dialogueElementItem.dialogueElementItemHuman > div.dialogueElementWrap > div.dialogueEmojiListWrap > div.emojiWrap > span.emojiCount
 html > body > main > div.textInputWrap > div.textInput > textarea.textInputTextarea
 html > body > main > div.textInputWrap > div.textInput > button.textInputButton
 
@@ -100,9 +98,6 @@ Output:
   50% {{ transform: scale(1.2) rotate(180deg); }}
   100% {{ transform: scale(0.5) rotate(360deg); }}
 }}
-body {{
-  background-color: pink;
-}}
 main {{
   opacity: 0.9;
   background-color: transparent;
@@ -122,6 +117,9 @@ main {{
 }}
 .emojiCount {{
   animation: keyframe-opacity-blinking 5s linear infinite;
+}}
+body {{
+  background-color: pink;
 }}
 \`\`\`
 ===
