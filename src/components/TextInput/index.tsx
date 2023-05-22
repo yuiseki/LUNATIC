@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRef } from "react";
+import React, { KeyboardEventHandler, useCallback, useRef } from "react";
 
 export const TextInput = ({
   disabled,
@@ -16,6 +16,18 @@ export const TextInput = ({
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
+    (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+        console.log("key down cmd + Enter", event.currentTarget.value.length);
+        if (0 < event.currentTarget.value.length) {
+          onSubmit();
+        }
+      }
+    },
+    [onSubmit]
+  );
+
   return (
     <div
       className="textInput"
@@ -26,6 +38,7 @@ export const TextInput = ({
         ref={textareaRef}
         value={inputText}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
         onChange={(e) => {
           setTimeout(() => {
             if (textareaRef.current) {

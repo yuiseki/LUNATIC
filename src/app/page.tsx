@@ -16,10 +16,12 @@ const greeting = `対話型自己書き換えウェブサイト。
 私には、ユーザーの指示に従って、このウェブサイトの見た目を変更する能力があります。
 あなたの指示によっては、このウェブサイトを完全に操作不能なほどに破壊することも可能ですので、ご注意ください。
 
+ユーザーの指示を待機しています…`;
+
+const disclaimer = `
 本ウェブサイトを利用した場合は、以下の事項に同意したものとみなされます。
 免責事項：本ウェブサイトの開発運用者は、あなたが本ウェブサイトを利用することによって生ずる、いかなる損害に対しても、一切の責任を負いません。
-
-ユーザーの指示を待機しています…`;
+`;
 
 const defaultUserCssStyle = `
 `;
@@ -162,20 +164,29 @@ export default function Home() {
     setRequesting(true);
     const cssRes = await nextPostJson("/api/lunatic/css", {
       pastMessagesJsonString: JSON.stringify(surfaceResJson.history),
+      currentCss: userCssStyle,
     });
     const cssResJson = await cssRes.json();
+    console.log(cssResJson.css);
     if (cssResJson.css) {
       const newUserCssStyle = cssResJson.css.split("```")[1];
-      console.log(newUserCssStyle);
       setUserCssStyle(newUserCssStyle);
     }
     setResponding(false);
     setRequesting(false);
-  }, [inputText, insertNewDialogue, pastMessages, setUserCssStyle]);
+  }, [
+    inputText,
+    insertNewDialogue,
+    pastMessages,
+    setUserCssStyle,
+    userCssStyle,
+  ]);
 
   const onClickEmergency = useCallback(() => {
-    console.log(defaultUserCssStyle);
+    setDialogueList([]);
+    setPastMessages(undefined);
     setUserCssStyle(defaultUserCssStyle);
+    setMounted(false);
   }, [setUserCssStyle]);
 
   const [mounted, setMounted] = useState(false);
@@ -207,12 +218,12 @@ export default function Home() {
 
   return (
     <>
-      <main suppressHydrationWarning>
+      <main suppressHydrationWarning className="main">
         <div
           className="dialogueListWrap"
           style={{
             width: "100%",
-            margin: "0 auto",
+            margin: "0 auto 5em",
           }}
         >
           {dialogueList.map((dialogueElement, dialogueIndex) => {
@@ -237,11 +248,14 @@ export default function Home() {
             left: 0,
             width: "100%",
             margin: "auto",
+            zIndex: 1000,
           }}
         >
           <TextInput
             disabled={responding || lazyInserting}
-            placeholder={"全体の背景を青色にして"}
+            placeholder={
+              "文字をすごく大きくして。背景を虹色にして。アイコンを回転させて。"
+            }
             inputText={inputText}
             setInputText={setInputText}
             onSubmit={onSubmit}
