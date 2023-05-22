@@ -18,8 +18,12 @@ export const TextInput = ({
 
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = useCallback(
     (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
-        console.log("key down cmd + Enter", event.currentTarget.value.length);
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        console.log(
+          "onKeyDown ctrl + Enter",
+          event.currentTarget.value,
+          event.currentTarget.value.length
+        );
         if (0 < event.currentTarget.value.length) {
           onSubmit();
         }
