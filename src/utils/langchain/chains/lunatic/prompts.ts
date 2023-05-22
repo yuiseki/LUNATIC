@@ -1,15 +1,14 @@
 import { PromptTemplate } from "langchain/prompts";
 
 export const LUNATIC_SURFACE_PROMPT = new PromptTemplate({
-  template: `Your name is LUNATIC, You are an interactive web site reconstructing assistant. You interact with the human, asking step-by-step about the concerns of the web site they want to create.
+  template: `Your name is LUNATIC, You are an interactive web site reconstructing assistant.
 
 You will always reply according to the following rules:
-- You MUST ALWAYS confirm with the human the concerns covered by the web site.
-- If the human does not indicate any concerns of the web site, you need to check with the human.
-- When you get above information from human, you will reply "I copy! I'm reconstructing web site that shows {{all concerns of web site}}. Please wait a while..." in the language which human is writing.
-- If human want to change, expand, limit, delete, reset or clear maps, you will carefully reply "I copy! I'm reconstructing web site that shows {{all areas and all concerns should includes maps}}. Please wait a while..." in the language which human is writing.
-- When human want to add or expand web site, Do not forget previous areas and concerns.
-- Without when human want to remove, delete or limit web site, Do not forget previous areas and concerns.
+- You identify the language in which the human is writing as precisely as possible.
+- You will carefully reply "I copy! I'm reconstructing web site that shows {{summary of the all concerns of the Human}}. Please wait a while..." in the language which human is writing.
+- If human want to change, expand, limit, delete, reset or clear maps, you will carefully reply "I copy! I'm reconstructing web site that shows {{summary of the all concerns of the Human}}. Please wait a while..." in the language which human is writing.
+- When human want to add or expand web site, Do not forget previous concerns.
+- Without when human want to remove, delete or limit web site, Do not forget previous concerns.
 - You MUST ALWAYS reply in the language which human is writing.
 - You MUST NOT reply in any language other than the language written by the human.
 - You reply with the most accurate grammar possible.
@@ -22,6 +21,15 @@ AI:`,
 });
 
 const exampleHello = `
+Text input:
+Human: 文字を大きくして
+Output:
+\`\`\`
+.dialogueElementItem {{
+  font-size: 4em;
+}}
+\`\`\`
+
 Input text:
 Human: 絵文字のカウントを点滅させてください
 Output:
@@ -32,7 +40,7 @@ Output:
   100% {{ opacity: 0; }}
 }}
 .emojiCount {{
-  animation: keyframe-opacity-blinking 2s linear infinite;
+  animation: keyframe-opacity-blinking 2s linear infinite !important;
 }}
 \`\`\`
 
@@ -46,7 +54,7 @@ Output:
 }}
 .avatarIcon {{
   border-radius: 50%;
-  animation: keyframe-transform-rotate-clockwise 1s linear infinite;
+  animation: keyframe-transform-rotate-clockwise 1s linear infinite !important;
 }}
 \`\`\`
 
@@ -60,9 +68,7 @@ Output:
   100% {{ transform: translate(-15px, 0); }}
 }}
 .dialogueElementItem {{
-  animation: keyframe-transform-horizontally-swaying 5s linear infinite;
-  background-color: #23232f;
-  border-color: #ff728a;
+  animation: keyframe-transform-horizontally-swaying 5s linear infinite !important;
 }}
 \`\`\`
 
@@ -76,12 +82,12 @@ Output:
   100% {{ transform: translate(0, 0px); }}
 }}
 .textInputWrap {{
-  animation: keyframe-transform-vertically-swinging 1s linear infinite;
+  animation: keyframe-transform-vertically-swinging 1s linear infinite !important;
 }}
 \`\`\`
 
 Input text:
-Human: 入力ボタンを大きくしたり小さくしたりさせてください
+Human: 入力ボタンをバウンスさせてください
 Output:
 \`\`\`
 @keyframes keyframe-transform-bigger-smaller-bounce {{
@@ -90,12 +96,12 @@ Output:
   100% {{ transform: scale(0.5); }}
 }}
 .textInputWrap {{
-  animation: keyframe-transform-bigger-smaller-bounce 1s linear infinite;
+  animation: keyframe-transform-bigger-smaller-bounce 1s linear infinite !important;
 }}
 \`\`\`
 
 Input text:
-Human: アバターアイコンを回転させながら大きくしたり小さくしたりしてください
+Human: アバターアイコンを回転させながらバウンスさせてください
 Output:
 \`\`\`
 @keyframes keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise {{
@@ -104,26 +110,16 @@ Output:
   100% {{ transform: scale(0.5) rotate(360deg); }}
 }}
 .avatarIcon img {{
-  animation:  keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise 1s linear infinite;
+  animation:  keyframe-transform-bigger-smaller-bounce-and-rotate-clockwise 1s linear infinite !important;
 }}
 \`\`\`
 
 Text input:
-Human: 私の文字を大きくしてください
-Output:
-\`\`\`
-.dialogueElementItemHuman {{
-  font-size: 4em;
-}}
-\`\`\`
-
-
-Text input:
-Human: 絵文字を改善させてください
+Human: 絵文字を回転させてください
 Output:
 \`\`\`
 .emoji {{
-  animation: keyframe-transform-rotate-clockwise 5s linear infinite;
+  animation: keyframe-transform-rotate-clockwise 5s linear infinite !important;
 }}
 \`\`\`
 `;
@@ -137,13 +133,14 @@ Output:
   50% {{ background-position: 100% 50%; }}
   100% {{ background-position: 0% 50%; }}
 }}
-body {{
+.body {{
   background: linear-gradient(to right, red, orange, yellow, green, aqua, blue, purple);
-  background-size: 600% 600%;
-  animation: gaming-rainbow-background 2s ease infinite;
+  background-size: 600% 600% !important;
+  animation: gaming-rainbow-background 2s ease infinite !important;
 }}
 \`\`\`
-
+`;
+const exampleGamingsDialogue = `
 Input text:
 Human: チャット欄をゲーミングPCっぽく虹色に光らせて
 Output:
@@ -155,9 +152,9 @@ Output:
 }}
 .dialogueElementItem {{
   --gamingBorderWidth: 1px;
-  position: relative;
-  border: none;
-  border-radius: var(--gamingBorderWidth);
+  position: relative !important;
+  border: none !important;
+  border-radius: var(--gamingBorderWidth) !important;
 }}
 .dialogueElementItem:after {{
   content: '';
@@ -192,15 +189,11 @@ Output:
 .dialogueTextRow {{
   font-size: 1em;
 }}
-.textInputWrap {{
-}}
 .textInputButton {{
   background-color: #1d9bf0;
 }}
 .emojiWrap {{
   background-color: #38444d;
-}}
-.emojiCount {{
 }}
 main {{
   opacity: 0.9;
@@ -217,9 +210,6 @@ Input text:
 Human: 全体的にChatGPTっぽくして
 Output:
 \`\`\`
-.avatarIcon {{
-  border-radius: 30px;
-}}
 .dialogueElementItem {{
   border-color: #555659;
 }}
@@ -253,6 +243,8 @@ html > body > main > div.textInputWrap > div.textInput > textarea.textInputTexta
 html > body > main > div.textInputWrap > div.textInput > button.textInputButton
 `;
 const cssClassNames = [
+  "body",
+  "main",
   "dialogueListWrap",
   "dialogueElementItem",
   "dialogueElementItemAssistant",
@@ -271,24 +263,39 @@ const cssClassNames = [
   "textInputTextarea",
   "textInputButton",
 ];
-export const LUNATIC_CSS_PROMPT = new PromptTemplate({
-  template: `You are an expert of CSS. You generate the CSS as accurately as possible according to the conversation history with Human. Note that, assistant is same as AI, Human is same as User, Chat is same as Dialogue or Conversation.
-
-You will always reply according to the following rules:
-- You always generate valid CSS based on whole conversation history.
-- The CSS MUST be enclosed by three backticks on new lines, denoting that it is a code block.
-- If the conversation history does not contain any intent, you output the most complex CSS that randomly specify CSS class name and animation keyframe as an example.
-
-Pre defined css class name is: [${cssClassNames.join(", ")}]
-
+const examples = `
 Examples:
-===
-${exampleHello}${exampleGamings}${exampleTwitter}
-===
+====
+${exampleHello}${exampleGamings}
+====
+`;
+export const LUNATIC_CSS_PROMPT = new PromptTemplate({
+  template: `You are an AI and expert of CSS. You generate the valid CSS according to the following conversation history with Human. Note that, assistant is same as AI, Human is same as User, Chat is same as Dialogue or Conversation.
+
+Always use the following format for your output:
+Font: font size, font family and font colors best suited to expressing concern of the following conversation history
+Colors: list of colors best suited to expressing concern of the following conversation history
+Animations: list of animations best suited to expressing concern of the following conversation history
+CSSWithKeyframes:
+\`\`\`
+The CSSWithKeyframes
+\`\`\`
+... (You MUST ALWAYS output only one Font, Colors, Animations, CSSWithKeyframes)
+
+Always output according to the following rules:
+- You MUST ALWAYS output the valid CSS.
+- You ALWAYS output the CSS as creatively as possible.
+- You MUST ALWAYS output the CSS that reflects all concerns of the following conversation history.
+- You MUST ALWAYS take into account color vision diversity in the CSS.
+- The CSSWithKeyframes MUST ALWAYS be enclosed by three backticks on new lines, denoting that it is a code block.
+
+Pre defined CSS class name is: [${cssClassNames.join(", ")}]
+
+${examples}
 
 Conversation history:
 {chat_history}
 
-Generated CSS:`,
+Output:`,
   inputVariables: ["chat_history"],
 });
