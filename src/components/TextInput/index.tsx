@@ -62,9 +62,6 @@ export const TextInput = ({
         onClick={onSubmit}
         disabled={disabled}
         style={{
-          position: "absolute",
-          bottom: 10,
-          right: 10,
           display: "block",
           padding: "4px",
           height: "34px",
