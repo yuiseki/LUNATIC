@@ -33,7 +33,7 @@ export default function Home() {
   );
 
   const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState(greeting);
+  const [insertingText, setInsertingText] = useState(greeting);
   const [requesting, setRequesting] = useState(false);
   const [responding, setResponding] = useState(false);
 
@@ -53,12 +53,12 @@ export default function Home() {
         const newIntervalId = setInterval(() => {
           setDialogueList((prev) => {
             const last = prev[prev.length - 1];
-            last.text = outputText.slice(0, last.text.length + 1);
+            last.text = insertingText.slice(0, last.text.length + 1);
             scrollToBottom();
-            if (outputText.length === last.text.length) {
+            if (insertingText.length === last.text.length) {
               setLazyInserting(false);
               setLazyInsertingInitialized(false);
-              setOutputText("");
+              setInsertingText("");
               if (!requesting) {
                 setResponding(false);
               }
@@ -83,7 +83,7 @@ export default function Home() {
     intervalId,
     lazyInserting,
     lazyInsertingInitialized,
-    outputText,
+    insertingText,
     requesting,
   ]);
 
@@ -102,7 +102,7 @@ export default function Home() {
         setDialogueList((prev) => {
           return [...prev, lazyNewDialogueElement];
         });
-        setOutputText(newDialogueElement.text);
+        setInsertingText(newDialogueElement.text);
       }
     },
     []
