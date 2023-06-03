@@ -32,14 +32,10 @@ export default function Home() {
     ""
   );
 
-  const [inputText, setInputText] = useState("");
   const [requesting, setRequesting] = useState(false);
-  const [responding, setResponding] = useState(false);
 
-  const [pastMessages, setPastMessages] = useState<
-    { messages: Array<any> } | undefined
-  >();
-
+  const [inputText, setInputText] = useState("");
+  // dialogue state
   const [dialogueList, setDialogueList] = useState<DialogueElement[]>([]);
   const [lazyInserting, setLazyInserting] = useState(false);
   const [insertingText, setInsertingText] = useState(greeting);
@@ -106,6 +102,11 @@ export default function Home() {
     requesting,
   ]);
 
+  // communication state
+  const [responding, setResponding] = useState(false);
+  const [pastMessages, setPastMessages] = useState<
+    { messages: Array<any> } | undefined
+  >();
   const onSubmit = useCallback(async () => {
     setResponding(true);
 
