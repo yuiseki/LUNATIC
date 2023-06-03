@@ -33,20 +33,39 @@ export default function Home() {
   );
 
   const [inputText, setInputText] = useState("");
-  const [insertingText, setInsertingText] = useState(greeting);
   const [requesting, setRequesting] = useState(false);
   const [responding, setResponding] = useState(false);
 
-  const [dialogueList, setDialogueList] = useState<DialogueElement[]>([]);
   const [pastMessages, setPastMessages] = useState<
     { messages: Array<any> } | undefined
   >();
 
+  const [dialogueList, setDialogueList] = useState<DialogueElement[]>([]);
   const [lazyInserting, setLazyInserting] = useState(false);
+  const [insertingText, setInsertingText] = useState(greeting);
+  const insertNewDialogue = useCallback(
+    (newDialogueElement: DialogueElement, lazy?: boolean) => {
+      if (!lazy) {
+        setDialogueList((prev) => {
+          return [...prev, newDialogueElement];
+        });
+      } else {
+        setLazyInserting(true);
+        const lazyNewDialogueElement = {
+          ...newDialogueElement,
+          text: "",
+        };
+        setDialogueList((prev) => {
+          return [...prev, lazyNewDialogueElement];
+        });
+        setInsertingText(newDialogueElement.text);
+      }
+    },
+    []
+  );
   const [lazyInsertingInitialized, setLazyInsertingInitialized] =
     useState(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
-
   useEffect(() => {
     if (lazyInserting) {
       if (!lazyInsertingInitialized) {
@@ -86,27 +105,6 @@ export default function Home() {
     insertingText,
     requesting,
   ]);
-
-  const insertNewDialogue = useCallback(
-    (newDialogueElement: DialogueElement, lazy?: boolean) => {
-      if (!lazy) {
-        setDialogueList((prev) => {
-          return [...prev, newDialogueElement];
-        });
-      } else {
-        setLazyInserting(true);
-        const lazyNewDialogueElement = {
-          ...newDialogueElement,
-          text: "",
-        };
-        setDialogueList((prev) => {
-          return [...prev, lazyNewDialogueElement];
-        });
-        setInsertingText(newDialogueElement.text);
-      }
-    },
-    []
-  );
 
   const onSubmit = useCallback(async () => {
     setResponding(true);
