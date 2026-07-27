@@ -61,7 +61,8 @@ export default function Home() {
   );
   const [lazyInsertingInitialized, setLazyInsertingInitialized] =
     useState(false);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
+  const [intervalId, setIntervalId] =
+    useState<ReturnType<typeof setInterval>>();
   useEffect(() => {
     if (lazyInserting) {
       if (!lazyInsertingInitialized) {

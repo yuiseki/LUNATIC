@@ -1,35 +1,35 @@
-import { ConversationChain } from "langchain/chains";
 import { LUNATIC_CSS_PROMPT, LUNATIC_SURFACE_PROMPT } from "./prompts";
-import { LLMChain } from "langchain/chains";
-import { BaseLanguageModel } from "langchain/dist/base_language";
-import { BaseMemory, BufferMemory } from "langchain/memory";
 
-export const loadLunaticSurfaceChain = ({
+// A minimal structural type for the one method we use. Typing this against
+// @langchain/core's full `BaseChatModel<CallOptions>` generic class makes
+// TypeScript try to check ChatOpenAI's large call-options type against it and
+// blow the type-instantiation depth limit.
+interface InvokableChatModel {
+  invoke(input: string): Promise<{ content: unknown }>;
+}
+
+export const runLunaticSurfaceChain = async ({
   llm,
-  memory,
+  input,
+  history,
 }: {
-  llm: BaseLanguageModel;
-  memory?: BaseMemory;
-}): LLMChain => {
-  if (memory === undefined) {
-    memory = new BufferMemory();
-  }
-  const chain = new ConversationChain({
-    llm: llm,
-    prompt: LUNATIC_SURFACE_PROMPT,
-    memory: memory,
-  });
-  return chain;
+  llm: InvokableChatModel;
+  input: string;
+  history: string;
+}): Promise<{ response: string }> => {
+  const prompt = await LUNATIC_SURFACE_PROMPT.format({ history, input });
+  const result = await llm.invoke(prompt);
+  return { response: String(result.content) };
 };
 
-export const loadLunaticCssChain = ({
+export const runLunaticCssChain = async ({
   llm,
+  chat_history,
 }: {
-  llm: BaseLanguageModel;
-}): LLMChain => {
-  const chain = new LLMChain({
-    llm: llm,
-    prompt: LUNATIC_CSS_PROMPT,
-  });
-  return chain;
+  llm: InvokableChatModel;
+  chat_history: string;
+}): Promise<{ text: string }> => {
+  const prompt = await LUNATIC_CSS_PROMPT.format({ chat_history });
+  const result = await llm.invoke(prompt);
+  return { text: String(result.content) };
 };

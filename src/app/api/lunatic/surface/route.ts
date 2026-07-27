@@ -1,46 +1,44 @@
 import { NextResponse } from "next/server";
-import { OpenAI } from "langchain/llms/openai";
-import { BufferMemory, ChatMessageHistory } from "langchain/memory";
-import { AIChatMessage, HumanChatMessage } from "langchain/schema";
-import { loadLunaticSurfaceChain } from "@/utils/langchain/chains/lunatic";
+import { ChatOpenAI } from "@langchain/openai";
+import { runLunaticSurfaceChain } from "@/utils/langchain/chains/lunatic";
+
+type StoredMessage = { type: "human" | "ai"; data: { content: string } };
 
 export async function POST(request: Request) {
-  //const { searchParams } = new URL(request.url);
-  //const query = searchParams.get("query");
-  //const pastMessagesJsonString = searchParams.get("pastMessages");
-
   const res = await request.json();
   const query = res.query;
   const pastMessagesJsonString = res.pastMessagesJsonString;
 
-  let chatHistory = undefined;
+  let pastMessages: StoredMessage[] = [];
   if (pastMessagesJsonString && pastMessagesJsonString !== "undefined") {
-    const pastMessages: {
-      messages: Array<{ type: string; data: { content: string } }>;
-    } = JSON.parse(pastMessagesJsonString);
-
-    const chatHistoryMessages = pastMessages.messages.map(
-      (message, idx: number) => {
-        if (message.data.content) {
-          if (idx === 0 || idx % 2 === 0) {
-            return new HumanChatMessage(message.data.content);
-          } else {
-            return new AIChatMessage(message.data.content);
-          }
-        } else {
-          return new HumanChatMessage("");
-        }
-      }
+    const parsed: { messages: StoredMessage[] } = JSON.parse(
+      pastMessagesJsonString
     );
-    chatHistory = new ChatMessageHistory(chatHistoryMessages);
+    pastMessages = parsed.messages;
   }
-  const memory = new BufferMemory({
-    chatHistory,
-  });
 
-  const model = new OpenAI({ temperature: 0, maxTokens: 2000 });
-  const surfaceChain = loadLunaticSurfaceChain({ llm: model, memory });
-  const surfaceResult = await surfaceChain.call({ input: query });
+  const history = pastMessages
+    .map((message) =>
+      message.type === "ai"
+        ? `AI: ${message.data.content}`
+        : `Human: ${message.data.content}`
+    )
+    .join("\n");
+
+  const model = new ChatOpenAI({
+    model: "gpt-4o-mini",
+    temperature: 0,
+    maxTokens: 2000,
+    // The openai SDK's Node transport detection misfires under Workers'
+    // nodejs_compat (process is defined, so it skips the native fetch path)
+    // and hangs / errors with "Connection error." Force fetch explicitly.
+    configuration: { fetch: globalThis.fetch },
+  });
+  const surfaceResult = await runLunaticSurfaceChain({
+    llm: model,
+    input: query,
+    history,
+  });
 
   console.log("----- ----- -----");
   console.log("----- surface -----");
@@ -49,9 +47,15 @@ export async function POST(request: Request) {
   console.log("AI:", surfaceResult.response);
   console.log("");
 
+  const newMessages: StoredMessage[] = [
+    ...pastMessages,
+    { type: "human", data: { content: query } },
+    { type: "ai", data: { content: surfaceResult.response } },
+  ];
+
   return NextResponse.json({
     query: query,
     surface: surfaceResult.response,
-    history: memory.chatHistory,
+    history: { messages: newMessages },
   });
 }

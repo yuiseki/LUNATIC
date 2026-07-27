@@ -1,4 +1,4 @@
-import { PromptTemplate } from "langchain/prompts";
+import { PromptTemplate } from "@langchain/core/prompts";
 
 export const LUNATIC_SURFACE_PROMPT = new PromptTemplate({
   template: `Your name is LUNATIC, You are an interactive web site reconstructing assistant.

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { OpenAI } from "langchain/llms/openai";
-import { loadLunaticCssChain } from "@/utils/langchain/chains/lunatic";
+import { ChatOpenAI } from "@langchain/openai";
+import { runLunaticCssChain } from "@/utils/langchain/chains/lunatic";
 
 export async function POST(request: Request) {
   const res = await request.json();
@@ -32,11 +32,17 @@ export async function POST(request: Request) {
   console.log("");
 
   try {
-    const model = new OpenAI({ temperature: 0, maxTokens: 2000 });
-    const chain = loadLunaticCssChain({ llm: model });
-    const result = await chain.call({
+    const model = new ChatOpenAI({
+      model: "gpt-4o-mini",
+      temperature: 0,
+      maxTokens: 2000,
+      // See surface/route.ts: force fetch so the openai SDK doesn't try its
+      // Node HTTP transport, which isn't supported under Workers.
+      configuration: { fetch: globalThis.fetch },
+    });
+    const result = await runLunaticCssChain({
+      llm: model,
       chat_history: chatHistory.join("\n"),
-      //current_css: currentCss,
     });
     console.log(result.text);
     return NextResponse.json({
